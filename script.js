@@ -1,38 +1,53 @@
 const GameBoard = (() => {
-    let board = [];
+    let board = Array(9).fill('');
 
-    for(let i = 0; i < 9; i++){
-        board.push('');
-    }
-
-    const getBoard = () => [...board];
-
-    const cell = (index, mark) => {
-        if (board[index] === ''){
+    const updateCell = (index, mark) => {
+        if(index >= 0 && index < board.length && board[index] === ''){
             board[index] = mark;
             return true;
-        } else if (board[index] === mark) {
-            mark = board[index]; 
-        } else {
-            return false;
         }
+        return false;
+    }
+ 
+    const resetBoard = () => {
+        board = Array(9).fill('');
     }
 
-    const reset = () =>{
-        board = ['', '', '', '', '', '', '', '', ''];
-    }
-    
     return{
-        getBoard,
-        cell,
-        reset
+        updateCell,
+        resetBoard
     }
 })();
 
-const playerMove = () => {
-    const playerX = 'X';
-    const playerO = 'O';
-}
+const gameController = (() => {
+    const gameStart = () => {
+
+    }
+
+    const playerTurn = (player1, player2) =>{
+        
+    }
+
+    const checkWin = () => {
+
+    }
+
+    const switchTurns = () =>{
+
+    }
+
+    const resetGame = () =>{
+
+    }
+
+    return{
+        gameStart,
+        playerTurn,
+        checkWin,
+        switchTurns,
+        resetGame
+    }
+})();
 
 const displayController = (() => {
     
