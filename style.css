@@ -11,7 +11,9 @@
     --bg: #f8f5f2;
     --main: #fffffe;
     --secondary: #f45d48;
+    --secondary-hover: #e6422c;
     --paragraph: #222525
+    --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;;
 }
 
 body{
@@ -28,10 +30,55 @@ header{
     color: var(--main);
 }
 
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button{
+    cursor: pointer;
+}
+
 .main-section{
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: clamp(1rem, 7vw, 2rem);
+}
+
+.controls{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem 0 0 0;
+    gap: 1rem;
+    width: 100%;
+}
+
+.controls input, .controls button{
+    width: clamp(300px, 24vw, 500px);
+    padding: clamp(0.5rem, 2vw, 01rem);
+    border-radius: 8px;
+    font-size: 1rem;
+    border: 0;
+}
+
+.controls input{
+    background-color: var(--main);
+    color: var(--paragraph);
+    box-shadow: var(--box-shadow);
+}
+
+.controls button{
+    background-color: var(--secondary);
+    color: white;
+}
+
+.controls button:hover{
+    background-color: var(--secondary-hover);
+    transition: background-color 0.3s ease;
+    color: white;
 }
 
 .board{
@@ -41,8 +88,19 @@ header{
 }
 
 .cell{
-    height: clamp(100px, 10vw, 300px);
-    width: clamp(100px, 10vw, 300px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: clamp(100px, 7vw, 200px);
+    width: clamp(100px, 7vw, 200px);
     cursor: pointer;
-    border: 1px solid red;
+    border: 1px solid var(--secondary);
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--paragraph);
+}
+
+#results{
+    margin: 0.9rem 0 0 0;
+    color: var(--paragraph);
+    font-size: clamp(1.2rem, 2.2vw, 3rem);
 }

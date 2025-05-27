@@ -11,8 +11,9 @@ const Gameboard = (() => {
   };
 
   const reset = () => {
-    // to make the board array empty
-    board.fill("");
+    for (let i = 0; i < board.length; i++) {
+      board[i] = "";
+    }
   };
 
   return {
@@ -108,40 +109,53 @@ const game = (() => {
     checkWin,
     checkTie,
     getActivePlayer: () => playerActive,
+    get gameOver() { return gameOver; }
   };
 })();
 
 const displayController = (() => {
-  const displayBoard = document.querySelector('.board');
-  const resetBtn = document.querySelector('#restartBtn');
-  const gameResults = document.querySelector('#results');
+  const displayBoard = document.querySelector(".board");
+  const resetBtn = document.querySelector("#restartBtn");
+  const gameResults = document.querySelector("#results");
   const cellArray = [];
-  const playerXInput = document.querySelector('#player1Name');
-  const playerOInput = document.querySelector('#player2Name');
-  const startBtn = document.querySelector('#startBtn');
+  const playerXInput = document.querySelector("#player1Name");
+  const playerOInput = document.querySelector("#player2Name");
+  const startBtn = document.querySelector("#startBtn");
   const boardCells = Gameboard.getBoard();
 
   for (let i = 0; i < boardCells.length; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
-    cell.textContent = boardCells[i];
-    cell.addEventListener('click', () => {
+    const cellText = document.createElement('h1');
+    cellText.textContent = boardCells[i];
+
+    cell.addEventListener("click", () => {
       if (!game.gameOver) {
         game.gameRound(i);
-        cell.textContent = Gameboard.getBoard()[i];
-        console.log('Clicked');
-        if(game.checkWin()) gameResults.textContent = `${game.getActivePlayer().playerName} wins!`;
-        else if(game.checkTie()) gameResults.textContent = "It's a tie!";
+        cellText.textContent = Gameboard.getBoard()[i];
+        cell.appendChild(cellText);
+        console.log("Clicked");
+        if (game.checkWin()) gameResults.textContent = `${game.getActivePlayer().playerName} wins!`; 
+        else if (game.checkTie()) gameResults.textContent = "It's a tie!";
       }
     });
     cellArray.push(cell);
     displayBoard.appendChild(cell);
   }
 
-  startBtn.addEventListener('click', () => {
-    const playerX = playerXInput.value || "Player 1";
-    const playerO = playerOInput.value || "Player 2";
-    
+  startBtn.addEventListener("click", () => {
+    const playerX = playerXInput.value;
+    const playerO = playerOInput.value;
+
+    if (playerX === playerO) {
+      alert("Players must have different names!");
+      return;
+    } else if (playerX === "" || playerO === "") {
+      alert("Please enter names for both players!");
+      return;
+    } else {
+      gameResults.textContent = "Game Started!";
+    }
     game.initialization(playerX, playerO);
     Gameboard.reset();
     cellArray.forEach((cell, index) => {
@@ -149,7 +163,13 @@ const displayController = (() => {
     });
   });
 
-  resetBtn.addEventListener('click', () => {
+  resetBtn.addEventListener("click", () => {
     Gameboard.reset();
+    cellArray.forEach((cell, index) => {
+      cell.textContent = Gameboard.getBoard()[index];
+    });
+    gameResults.textContent = "";
+    playerXInput.value = "";
+    playerOInput.value = "";
   });
 })();
